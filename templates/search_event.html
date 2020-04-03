@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block head_title %} Search Event {% endblock %}
+{% load static %}
+
+{% block content %}
+
+<div class="container-fluid ">
+    <div class=" row justify-content-center mt-4    ">
+        <table class="table col-9 frm-container table-striped text-center table-bordered">
+            <thead class="thead-dark ">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Mobile no.</th>
+                    <th scope="col">Start Date</th>
+                    <th scope="col">End Date</th>
+                    <th scope="col">Event Type</th>
+                    <th scope="col">Package</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">View</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for event in date_event %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{event.name}}</td>
+                    <td>{{ event.mobile_no }}</td>
+                    <td>{{ event.start_date }}</td>
+                    <td>{{ event.end_date }}</td>
+                    <td>{{ event.event_type }}</td>
+                    <td>{{event.package}}</td>
+                    <td>{{ event.total }}</td>
+                    <td><a href="{{ event.get_absolute_url }}" class="btn btn-info" role="button">View</a>
+                    </td>
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_scripts%}
+
+
+{% endblock extra_scripts %}
