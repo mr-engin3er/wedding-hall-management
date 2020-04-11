@@ -15,53 +15,47 @@
             <thead class="thead-dark ">
                 <tr>
                     <th>Name:</th>
-                    <td class="editable" data-slug="{{event.slug}}" data-type="name">{{event.name}}</td>
+                    <td>{{event.name}}</td>
                 </tr>
                 <tr>
                     <th>Mobile no.:</th>
-                    <td data-slug="{{event.slug}}" data-type="mobile_no">{{ event.mobile_no }}</td>
+                    <td>{{ event.mobile_no }}</td>
                 </tr>
                 <tr>
                     <th>Start Date:</th>
-                    <td class="editable" data-slug="{{event.slug}}" data-type="start_date">
-                        {{ event.start_date }}</td>
+                    <td>{{ event.start_date }}</td>
                 </tr>
                 <tr>
                     <th>End Date:</th>
-                    <td class="editable" data-slug="{{event.slug}}" data-type="end_date">
-                        {{ event.end_date }}</td>
+                    <td>{{ event.end_date }}</td>
                 </tr>
                 <tr>
                     <th>Event type:</th>
-                    <td data-slug="{{event.slug}}" data-type="event_type">
-                        {{ event.event_type }}</td>
+                    <td>{{ event.event_type }}</td>
                 </tr>
                 <tr>
                     <th>Address:</th>
-                    <td class="editable" data-slug="{{event.slug}}" data-type="address">{{ event.address }}</td>
+                    <td>{{ event.address }}</td>
                 </tr>
                 <tr>
                     <th>Package:</th>
-                    <td data-slug="{{event.slug}}" data-type="package">{{event.package}}</td>
+                    <td>{{event.package}}</td>
                 </tr>
                 <tr>
                     <th>Advance:</th>
-                    <td class="editable" data-slug="{{event.slug}}" data-type="advance_paid">{{event.advance_paid}}</td>
+                    <td>{{event.advance_paid}}</td>
                 </tr>
                 <tr>
                     <th>Cleaning charges:</th>
-                    <td class="editable" data-slug="{{event.slug}}" data-type="cleaning_charges">
-                        {{event.cleaning_charges}}</td>
+                    <td>{{event.cleaning_charges}}</td>
                 </tr>
                 <tr>
                     <th>Electricity:</th>
-                    <td class="editable" data-slug="{{event.slug}}" data-type="electricity_consumption">
-                        {{event.electricity_consumption}}</td>
+                    <td>{{event.electricity_consumption}}</td>
                 </tr>
                 <tr>
                     <th>Property damage:</th>
-                    <td class="editable" data-slug="{{event.slug}}" data-type="property_damage_charges">
-                        {{event.property_damage_charges}}</td>
+                    <td>{{event.property_damage_charges}}</td>
                 </tr>
                 <tr>
                     <th>Total:</th>
@@ -69,81 +63,50 @@
                 </tr>
                 <tr>
                     <th></th>
-                    <td><a href="{% url 'bookings:event_detail' event.slug %}" class="btn btn-primary rounded-pill mr-3"
+                    <td><a href="{% url 'bookings:update_event' event.slug %}" class="btn btn-primary rounded-pill mr-3"
                             role="button">Update</a>
-                        <a href="{% url 'bookings:delete_event' event.slug %}" class="btn btn-danger rounded-pill ml-3"
-                            role="button">Delete</a></td>
+                        <button type="button" class="btn btn-danger rounded-pill ml-3" data-toggle="modal"
+                            data-target="#exampleModalCenter">
+                            Delete
+                        </button>
+
+                    </td>
                 </tr>
             </thead>
         </table>
-        {% endfor %}
+
 
     </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content text-center">
+                <div class="modal-header ">
+                    <h5 class="modal-title " id="exampleModalCenterTitle">Delete Confirmation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    Are you sure, You want to delete?
+                </div>
+                <div class="modal-footer ">
+                    <button type="button" class="btn btn-secondary rounded-pill" data-dismiss="modal">Close</button>
+                    <a href="{% url 'bookings:delete_event' event.slug %}" class="btn btn-danger rounded-pill ml-3"
+                        role="button">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
 </section>
+
 {% endblock %}
 
 {% block extra_scripts %}
 
 
-<script>
-    $(document).ready(function () {
-        $(document).on("dblclick", ".editable", function () {
-            var value = $(this).text();
-            var data_type = $(this).data("type");
-            var input_type = "text";
-            if (data_type == "start_date") {
-                input_type = "date";
-            }
-            else if (data_type == "end_date") {
-                input_type = "date";
-            }
-            var input = "<input type='" + input_type + "' class='input-data' value='" + value + "' class='form-control'>";
-            $(this).html(input);
-            $(this).removeClass("editable")
-        });
-
-        $(document).on("blur", ".input-data", function () {
-            var value = $(this).val();
-            var td = $(this).parent("td");
-            $(this).remove();
-            td.html(value);
-            td.addClass("editable");
-            var type = td.data("type");
-            sendToServer(td.data("slug"), value, type);
-        });
-        $(document).on("keypress", ".input-data", function (e) {
-            var key = e.which;
-            if (key == 13) {
-                var value = $(this).val();
-                var td = $(this).parent("td");
-                $(this).remove();
-                td.html(value);
-                td.addClass("editable");
-                var type = td.data("type");
-                sendToServer(td.data("slug"), value, type);
-            }
-        });
-
-        function sendToServer(slug, value, type) {
-            console.log(slug);
-            console.log(value);
-            console.log(type);
-
-            $.ajax({
-                url: "/bookings/update_event/" + slug,
-                type: "POST",
-                data: { slug: slug, type: type, value: value },
-            })
-                .done(function (response) {
-                    console.log(response);
-                })
-                .fail(function () {
-                    console.log("Error Occured");
-                });
-
-        }
-    });
-</script>
 
 
 

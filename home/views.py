@@ -5,14 +5,16 @@ from django.views.generic import ListView
 from datetime import datetime
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
-from bookings.models import Event
+from bookings.models import Event, Muhurt
 
 
 @login_required
 def event_calendar(request):
+    muhurt = Muhurt.objects.all()
     event = Event.objects.all()
     context = {
-        'event': event
+        'event': event,
+        'muhurt': muhurt
     }
     return render(request, 'index.html', context)
 

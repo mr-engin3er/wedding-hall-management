@@ -16,6 +16,12 @@ EVENT_CHOICES = (
 )
 
 
+class Muhurt(models.Model):
+    name = models.CharField(max_length=20)
+    start_date = models.DateField()
+    end_date = models.DateField()
+
+
 class Event(models.Model):
     name = models.CharField(max_length=20)
     slug = models.SlugField(unique=True)
@@ -41,6 +47,12 @@ class Event(models.Model):
 
     def get_absolute_url(self):
         return reverse("bookings:event_detail", kwargs={'slug': self.slug})
+
+    def get_all_total():
+        total = 0
+        for event in Event.objects.all():
+            total += event.total()
+        return total
 
 
 def create_slug(instance, new_slug=None):

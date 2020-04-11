@@ -51,7 +51,7 @@ def check_all(request, *args, **kwargs):
 
         context = {
             'event': event,
-
+            'total': Event.get_all_total()
         }
         return render(request, 'check_all.html', context)
     except ObjectDoesNotExist:
@@ -77,46 +77,19 @@ def event_detail(request, slug):
 @login_required
 @csrf_exempt
 def update_event(request, slug):
-    slug = request.POST.get('slug', '')
-    type = request.POST.get('type', '')
-    value = request.POST.get('value', '')
-    event = Event.objects.get(slug=slug)
+    event = get_object_or_404(Event, slug=slug)
+    form = CreatenewForm(request.POST or None, instance=event)
+    if form.is_valid():
+        event.save()
+        messages.success(
+            request, "Booking updated Successfully.", extra_tags='alert-success')
+        return HttpResponseRedirect(event.get_absolute_url())
+    context = {
+        'event': event,
+        'form': form
+    }
 
-    if type == "name":
-        event.name = value
-
-    if type == "mobile_no":
-        event.mobile_no = value
-
-    if type == "start_date":
-        event.start_date = value
-
-    if type == "end_date":
-        event.end_date = value
-
-    if type == "event_type":
-        event.event_type = value
-
-    if type == "address":
-        event.address = value
-
-    if type == "package":
-        event.package = value
-
-    if type == "advance_paid":
-        event.advance_paid = value
-
-    if type == "cleaning_charges":
-        event.cleaning_charges = value
-
-    if type == "electricity_consumption":
-        event.electricity_consumption = value
-
-    if type == "property_damage_charges":
-        event.property_damage_charges = value
-
-    event.save()
-    return JsonResponse({"success": "Updated successfully"})
+    return render(request, 'update_event.html', context)
 
 
 @login_required
