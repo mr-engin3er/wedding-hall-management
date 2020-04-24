@@ -27,7 +27,7 @@ class CreatenewForm(forms.ModelForm):
         self.fields['name'].widget.attrs.update(
             {'type': 'text', 'class': 'form-control', 'id': 'name', 'plceholder': 'Enter name'})
         self.fields['mobile_no'].widget.attrs.update(
-            {'type': 'number', 'class': 'form-control', 'id': 'mobile_no'})
+            {'type': 'text', 'class': 'form-control', 'id': 'mobile_no', 'data-prefix': '+91'})
         self.fields['address'].widget.attrs.update(
             {'type': 'text', 'class': 'form-control', 'id': 'inputAddress', 'placeholder': '1234 Main St'})
         self.fields['start_date'].widget.attrs.update(

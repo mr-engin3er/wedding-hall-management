@@ -91,6 +91,15 @@
 {% endblock %}
 
 {% block extra_scripts %}
+<script>
 
+$("#mobile_no").keyup(function(){
+    var prefix = "+91"
+
+    if(this.value.indexOf(prefix) !== 0 ){
+        this.value = prefix + this.value;
+    }
+});
+</script>
 
 {% endblock extra_scripts %}
