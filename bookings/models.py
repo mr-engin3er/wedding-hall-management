@@ -1,7 +1,7 @@
+from django.core.validators import RegexValidator
 from django.urls import reverse
 from django.db import models
 from django.db.models.signals import pre_save
-from phonenumber_field.modelfields import PhoneNumberField
 from django.utils.text import slugify
 
 S = 265000
@@ -23,9 +23,13 @@ class Muhurt(models.Model):
 
 
 class Event(models.Model):
+    phone_regex = RegexValidator(regex=r'[6-9]\d{9}$',
+                                 message="Invalid mobile number. Up to 10 digits allowed.")
+
     name = models.CharField(max_length=20)
     slug = models.SlugField(unique=True)
-    mobile_no = PhoneNumberField()
+    mobile_no = models.CharField(
+        validators=[phone_regex], max_length=10)
     address = models.CharField(max_length=100)
     start_date = models.DateField()
     end_date = models.DateField()

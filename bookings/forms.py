@@ -1,9 +1,9 @@
 from django import forms
-from phonenumber_field.formfields import PhoneNumberField
 from .models import Event
 
 
 class CreatenewForm(forms.ModelForm):
+
     class Meta:
         model = Event
         fields = (
@@ -22,12 +22,10 @@ class CreatenewForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # self.fields['start_date'].input_formats = settings.DATE_INPUT_FORMATS
-        # self.fields['end_date'].input_formats = settings.DATE_INPUT_FORMATS
         self.fields['name'].widget.attrs.update(
             {'type': 'text', 'class': 'form-control', 'id': 'name', 'plceholder': 'Enter name'})
         self.fields['mobile_no'].widget.attrs.update(
-            {'type': 'text', 'class': 'form-control', 'id': 'mobile_no', 'data-prefix': '+91'})
+            {'type': 'text', 'class': 'form-control', 'id': 'mobile_no', 'placeholder': 'Mobile number'})
         self.fields['address'].widget.attrs.update(
             {'type': 'text', 'class': 'form-control', 'id': 'inputAddress', 'placeholder': '1234 Main St'})
         self.fields['start_date'].widget.attrs.update(

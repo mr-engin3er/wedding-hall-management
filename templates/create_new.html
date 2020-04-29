@@ -3,15 +3,24 @@
 {% load crispy_forms_tags %}
 {% load static %}
 {% block content %}
+
+{% for field in form %}
+{% if field.errors %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>{{field.label}} ! </strong>{{field.errors}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+{%endif%}
+{%endfor%}
+
 <style>
     body {
         background-image: url('{% static "svg/gradient.svg" %}');
         width: 100%;
     }
 </style>
-
-
-
 <section class="container-fluid ">
 
     <div class=" row justify-content-center mt-4    ">
@@ -91,15 +100,4 @@
 {% endblock %}
 
 {% block extra_scripts %}
-<script>
-
-$("#mobile_no").keyup(function(){
-    var prefix = "+91"
-
-    if(this.value.indexOf(prefix) !== 0 ){
-        this.value = prefix + this.value;
-    }
-});
-</script>
-
 {% endblock extra_scripts %}

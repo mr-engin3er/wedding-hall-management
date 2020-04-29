@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '@5&2%)&yrrifx1e2*(2*@gw2kwi643u7xy0zvj7xqdbv(x9*)l'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -145,7 +145,7 @@ STATICFILES_DIRS = [
 ]
 
 mimetypes.add_type('text/css', '.css', True)
-
+mimetypes.add_type('text/html', '.html', True)
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 NEXT = '/'
