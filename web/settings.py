@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-import mimetypes
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -43,8 +42,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Third party apps
-
-    'phonenumber_field',
     'crispy_forms',
 
     # our apps
@@ -144,13 +141,12 @@ STATICFILES_DIRS = [
 
 ]
 
-mimetypes.add_type('text/css', '.css', True)
-mimetypes.add_type('text/html', '.html', True)
+
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-NEXT = '/'
 
-LOGIN_URL = '/admin'
+
+LOGIN_URL = '/login'
 
 
 DATE_INPUT_FORMATS = ['%d/%m/%Y']
